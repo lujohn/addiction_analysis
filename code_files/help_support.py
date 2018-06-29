@@ -59,3 +59,65 @@ def get_support_labels(comments):
             
     return pos_labels_idx
 
+
+
+def get_all_data(help_indices, support_indices):
+    """input: help_indices and support_indices
+        output: two lists, list of text and list of labels"""
+    text = []
+    labels = []
+    for idx in help_indices: 
+        text.append(posts[idx])
+        labels.append(1)
+    for idx in support_indices: 
+        text.append(comments[idx])
+        labels.append(0)
+        
+    return(text, labels)
+    
+    
+def split_data(text, labels, split_perc=0.8):
+    
+    '''inputs: text from get_all_data function and labels from get_all_data function; split_perc 
+    is proportion training to test data; default is 80/20
+        outputs: four lists in this order--train texts, train labels, test texts, test labels'''
+    
+    
+    n = len(text)
+    i = int(n * split_perc)
+    
+    train_index = np.random.permutation(n)[:i]
+
+    test_index = []
+    for idx in range(n): 
+        if idx not in train_index: 
+            test_index.append(idx)
+            
+    train_text = []
+    for idx in train_index: 
+        train_text.append(text[idx])
+    
+    train_labels = []
+    for idx in train_index: 
+        train_labels.append(labels[idx])
+    
+    test_text = []
+    for idx in test_index: 
+        test_text.append(text[idx])
+      
+    test_labels = []
+    for idx in test_index: 
+        test_labels.append(labels[idx])
+
+    return(train_text, train_labels, test_text, test_labels)
+
+            
+
+
+
+
+
+
+
+
+
